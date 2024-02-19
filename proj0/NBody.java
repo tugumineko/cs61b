@@ -33,8 +33,8 @@ public class NBody {
         StdDraw.show();
 
         /** Drawing one planet */
-        for (int i=0;i<planets.length;i++) {
-            StdDraw.picture(planets[i].xxPos, planets[i].yyPos, "images/" + planets[i].imgFileName);
+        for (Planet p:planets) {
+            p.draw();
         }
 
         /** enable double buffering*/
@@ -57,8 +57,8 @@ public class NBody {
             StdDraw.picture(0, 0, imageToDraw);
 
             /** Drawing All of the Planets*/
-            for (int i = 0; i < planets.length; i++) {
-                StdDraw.picture(planets[i].xxPos, planets[i].yyPos, "images/" + planets[i].imgFileName);
+            for (Planet p:planets) {
+                p.draw();
             }
             StdDraw.show();
             StdDraw.pause(10);
