@@ -23,8 +23,19 @@ public class Test{
         AList.addLast(1);
         AList.addLast(17);
         AList.addLast(12);
+        AList.addLast(17);
+        for(int i= 0;i<10000;i++)
+        {
+            AList.addLast(17);
+            AList.addFirst(1);
+        }
+        for(int i=0;i<10000;i++)
+        {
+            System.out.print(AList.removeLast()+" ");
+            AList.removeFirst();
+        }
         AList.removeLast();
-        AList.removeFirst();
+        System.out.println();
         if(!AList.isEmpty()){
             System.out.print(AList.get(2)+" " +AList.size()+" ");
             AList.printDeque();

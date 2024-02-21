@@ -29,7 +29,7 @@ public class ArrayDeque<T>{
 
     /**Resizing the size of ArrayDeque*/
     private void resizeEnlarge(){
-        T[] temp = (T[]) new Object[size*2];
+        T[] temp = (T[]) new Object[items.length*2];
         System.arraycopy(items,0,temp,0,last+1);
         System.arraycopy(items,first,temp,temp.length-items.length+first,size-last-1);
         first=temp.length-items.length+first;
@@ -40,11 +40,13 @@ public class ArrayDeque<T>{
         double ssize=size;
         double ratio=ssize/ items.length;
         while(ratio<0.25&&items.length>=16){
-            T[] temp = (T[]) new Object[size/2];
+            T[] temp = (T[]) new Object[items.length/2];
             System.arraycopy(items,0,temp,0,last+1);
-            System.arraycopy(items,first,temp,first-temp.length-items.length,size-last-1);
-            first=first-temp.length-items.length;
+            System.arraycopy(items,first,temp,first+temp.length-items.length,size-last-1);
+            first=first+temp.length-items.length;
             items=temp;
+            ssize=size;
+            ratio=ssize/ items.length;
         }
     }
 
@@ -114,7 +116,8 @@ public class ArrayDeque<T>{
         if(size==0)return null;
         T temp=items[last];
         items[last]=null;
-        last-=1;
+        if(last==0)last=size-1;
+        else last-=1;
         size-=1;
         resizeReduce();
         return temp;
@@ -126,7 +129,7 @@ public class ArrayDeque<T>{
     public T get(int index){
         if(index>size-1)
             return null;
-        return items[(first+index)%size];
+        return items[(first+index)% items.length];
     }
 
 
