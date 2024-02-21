@@ -34,6 +34,7 @@ public class ArrayDeque<T>{
         System.arraycopy(items,first,temp,temp.length-items.length+first,size-last-1);
         first=temp.length-items.length+first;
         items=temp;
+        temp=null;
     }
 
     private void resizeReduce(){
@@ -47,6 +48,7 @@ public class ArrayDeque<T>{
             items=temp;
             ssize=size;
             ratio=ssize/ items.length;
+            temp=null;
         }
     }
 
@@ -56,7 +58,6 @@ public class ArrayDeque<T>{
     if(first==0){
         first= items.length;
     }
-    if(first==1)last=0;
     first-=1;
     items[first]=item;
     size+=1;
@@ -103,7 +104,7 @@ public class ArrayDeque<T>{
         if(size==0)return null;
         T temp=items[first];
         items[first]=null;
-        if(first==size-1)first=0;
+        if(first== items.length-1)first=0;
         else first+=1;
         size-=1;
         resizeReduce();
@@ -127,7 +128,7 @@ public class ArrayDeque<T>{
      * where 0 is the front, 1 is the next item, and so forth.
      * If no such item exists, returns null. Must not alter the deque!*/
     public T get(int index){
-        if(index>size-1)
+        if(index>items.length-1)
             return null;
         return items[(first+index)% items.length];
     }
