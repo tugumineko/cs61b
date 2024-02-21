@@ -12,6 +12,7 @@ public class ArrayDeque<T>{
         items = (T[]) new Object[8];
     }
 
+/**
     public ArrayDeque(T item){
         first=0;
         last=0;
@@ -24,10 +25,10 @@ public class ArrayDeque<T>{
     public ArrayDeque(ArrayDeque other){
         items = (T[]) new Object[other.size];
         System.arraycopy(other,0,items,0,size);
-    }
+    }*/
 
     /**Resizing the size of ArrayDeque*/
-    public void resizeEnlarge(){
+    private void resizeEnlarge(){
         T[] temp = (T[]) new Object[size*2];
         System.arraycopy(items,0,temp,0,last+1);
         System.arraycopy(items,first,temp,temp.length-items.length+first,size-last-1);
@@ -36,7 +37,7 @@ public class ArrayDeque<T>{
         size*=2;
     }
 
-    public void resizeReduce(){
+    private void resizeReduce(){
         double ssize=size;
         double ratio=ssize/ items.length;
         while(ratio<0.25&&items.length>=16){

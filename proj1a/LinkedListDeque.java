@@ -24,6 +24,7 @@ public class LinkedListDeque<T>{
             size = 0;
         }
 
+        /**
         public LinkedListDeque(T i){
             firstSentinel= new Deque(null,null,null);
             lastSentinel = new Deque(null,null,null);
@@ -33,6 +34,7 @@ public class LinkedListDeque<T>{
         }
 
         /** Creates a deep copy of other*/
+    /**
         public LinkedListDeque(LinkedListDeque other) {
             firstSentinel=new Deque(null,null,null);
             Deque ptr = other.firstSentinel.next;
@@ -49,7 +51,7 @@ public class LinkedListDeque<T>{
             }
             lastSentinel=new Deque(null,res,null);
         }
-
+*/
         /** Adds x to the front of the list*/
         public void addFirst(T x){
             firstSentinel.next = new Deque(x,firstSentinel,firstSentinel.next);
@@ -132,7 +134,7 @@ public class LinkedListDeque<T>{
         }
 
         /** Same as get.But uses recursion*/
-        public T getRecursionHelp(Deque start,int index) {
+        private T getRecursionHelp(Deque start,int index) {
             if (index == 0) return start.item;
             else return getRecursionHelp(start.next, index - 1);
         }
