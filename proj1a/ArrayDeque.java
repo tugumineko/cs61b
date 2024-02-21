@@ -34,7 +34,6 @@ public class ArrayDeque<T>{
         System.arraycopy(items,first,temp,temp.length-items.length+first,size-last-1);
         first=temp.length-items.length+first;
         items=temp;
-        size*=2;
     }
 
     private void resizeReduce(){
@@ -46,7 +45,6 @@ public class ArrayDeque<T>{
             System.arraycopy(items,first,temp,first-temp.length-items.length,size-last-1);
             first=first-temp.length-items.length;
             items=temp;
-            size/=2;
         }
     }
 
@@ -56,6 +54,7 @@ public class ArrayDeque<T>{
     if(first==0){
         first= items.length;
     }
+    if(first==1)last=0;
     first-=1;
     items[first]=item;
     size+=1;
@@ -64,6 +63,7 @@ public class ArrayDeque<T>{
     /** Adds an item of type T to the back of the deque.*/
     public void addLast(T item){
         if(size>= items.length) resizeEnlarge();
+    if(last==-1)first=0;
     last+=1;
     items[last]=item;
     size+=1;
