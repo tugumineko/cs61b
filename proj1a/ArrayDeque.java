@@ -58,6 +58,7 @@ public class ArrayDeque<T>{
     if(first==0){
         first= items.length;
     }
+    if(first==1)last=0;
     first-=1;
     items[first]=item;
     size+=1;
@@ -105,6 +106,7 @@ public class ArrayDeque<T>{
         T temp=items[first];
         items[first]=null;
         if(first== items.length-1)first=0;
+        if(last==0&&first==0)last=-1;
         else first+=1;
         size-=1;
         resizeReduce();
@@ -118,6 +120,7 @@ public class ArrayDeque<T>{
         T temp=items[last];
         items[last]=null;
         if(last==0)last=size-1;
+        if(last==0&&first==0)first=1;
         else last-=1;
         size-=1;
         resizeReduce();

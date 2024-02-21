@@ -14,12 +14,16 @@ public class Test{
         System.out.println();
 
         ArrayDeque ArrayDeque = new ArrayDeque();
-        ArrayDeque.addLast(0);
+        ArrayDeque.addFirst(0);
+        ArrayDeque.addFirst(1);
+        ArrayDeque.addFirst(2);
         ArrayDeque.size();
-        ArrayDeque.size();
-        ArrayDeque.addFirst(3);
-        ArrayDeque.removeFirst();
-        ArrayDeque.removeFirst();
+        ArrayDeque.addLast(4);
+        ArrayDeque.addLast(5);
+        ArrayDeque.addFirst(6);
+        ArrayDeque.addFirst(7);
+        ArrayDeque.addFirst(8);
+        ArrayDeque.addLast(9);
         /**for(int i= 0;i<10000;i++)
         {
             AList.addLast(17);
