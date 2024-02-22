@@ -42,7 +42,7 @@ public class ArrayDeque<T>{
     private void resizeReduce(){
         T[] temp = (T[]) new Object[items.length/2];
         while(4*size<items.length &&items.length>=16){
-            for(int i=0;i<size;i++,first=(first+1)%items.length)
+            for(int i=0;i<size;i++)
                 temp[i]=items[(first+1+i)%items.length];
             first=temp.length-1;
             last=size;

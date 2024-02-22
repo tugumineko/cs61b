@@ -15,28 +15,28 @@ public class Test{
 
         ArrayDeque ArrayDeque = new ArrayDeque();
         ArrayDeque.addLast(0);
+        ArrayDeque.get(0) ;
+        ArrayDeque.addFirst(2);
         ArrayDeque.addFirst(3);
-        ArrayDeque.removeLast();
-        ArrayDeque AList = new ArrayDeque();
-        for(int i= 0;i<10000;i++)
-        {
-            AList.addLast(17);
-            AList.addFirst(1);
-        }
-        for(int i=0;i<10000;i++)
-        {
-            System.out.print(AList.removeLast()+" ");
-            AList.removeFirst();
-        }
-        AList.removeLast();
-        System.out.println();
-        if(!AList.isEmpty()){
-            System.out.print(AList.get(2)+" " +AList.size()+" ");
-            AList.printDeque();
-        }
-        System.out.println();
-
-
+        ArrayDeque.addFirst(4);
+        ArrayDeque.addLast(5);
+        ArrayDeque.addFirst(6);
+        ArrayDeque.addLast(7);
+        ArrayDeque.addLast(8);
+        ArrayDeque.removeFirst()  ;
+        ArrayDeque.addFirst(10);
+        ArrayDeque.get(4)     ;
+        ArrayDeque.get(7)      ;
+        ArrayDeque.addLast(13);
+        ArrayDeque.removeFirst()    ;
+        ArrayDeque.get(7)    ;
+        ArrayDeque.removeFirst()   ;
+        ArrayDeque.get(0)      ;
+        ArrayDeque.removeLast()      ;
+        ArrayDeque.removeLast()     ;
+        ArrayDeque.removeFirst()    ;
+        ArrayDeque.removeLast()      ;
+        ArrayDeque.removeLast()     ;
     }
 
 
