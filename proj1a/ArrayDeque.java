@@ -10,7 +10,6 @@ public class ArrayDeque<T>{
         first=items.length-1;
         last=0;
         size=0;
-
     }
 
 /**
@@ -33,10 +32,9 @@ public class ArrayDeque<T>{
         T[] temp = (T[]) new Object[items.length*2];
         for(int i=0;i<size;i++)
             temp[i]=items[(first+1+i)%items.length];
-        first=temp.length-1;
-        last=size;
         items=temp;
-        temp=null;
+        first=items.length-1;
+        last=size;
     }
 
     private void resizeReduce(){
@@ -44,10 +42,9 @@ public class ArrayDeque<T>{
         while(4*size<items.length &&items.length>=16){
             for(int i=0;i<size;i++)
                 temp[i]=items[(first+1+i)%items.length];
-            first=temp.length-1;
-            last=size;
             items=temp;
-            temp=null;
+            first=items.length-1;
+            last=size;
         }
     }
 
