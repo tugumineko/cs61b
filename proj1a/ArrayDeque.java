@@ -68,6 +68,7 @@ public class ArrayDeque<T>{
     public void addLast(T item){
         if(size>= items.length) resizeEnlarge();
     if(last==-1)first=0;
+    else last+=1;
     if(last == items.length-1)last=0;
     else last+=1;
     items[last]=item;
