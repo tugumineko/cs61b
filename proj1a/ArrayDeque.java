@@ -6,8 +6,8 @@ public class ArrayDeque<T>{
 
     /** Creat a new ArrayDeque*/
     public ArrayDeque(){
-        first=1;
-        last=-1;
+        first=0;
+        last=0;
         size=0;
         items = (T[]) new Object[8];
     }
@@ -30,24 +30,22 @@ public class ArrayDeque<T>{
     /**Resizing the size of ArrayDeque*/
     private void resizeEnlarge(){
         T[] temp = (T[]) new Object[items.length*2];
-        System.arraycopy(items,0,temp,0,last+1);
-        System.arraycopy(items,first,temp,temp.length-items.length+first,size-last-1);
-        first=temp.length-items.length+first;
+        for(int i=0;i<size;i++,first=(first+1)%items.length)
+            temp[i]=items[(first+1)%items.length];
+        first=temp.length-1;
+        last=size;
         items=temp;
         temp=null;
     }
 
     private void resizeReduce(){
-        double ssize=size;
-        double ratio=ssize/ items.length;
-        while(ratio<0.25&&items.length>=16){
-            T[] temp = (T[]) new Object[items.length/2];
-            System.arraycopy(items,0,temp,0,last+1);
-            System.arraycopy(items,first,temp,first+temp.length-items.length,size-last-1);
-            first=first+temp.length-items.length;
+        T[] temp = (T[]) new Object[items.length/2];
+        while(4*size<items.length &&items.length>=16){
+            for(int i=0;i<size;i++,first=(first+1)%items.length)
+                temp[i]=items[(first+1)%items.length];
+            first=temp.length-1;
+            last=size;
             items=temp;
-            ssize=size;
-            ratio=ssize/ items.length;
             temp=null;
         }
     }
@@ -55,24 +53,17 @@ public class ArrayDeque<T>{
     /** Adds an item of type T to the front of the deque.*/
     public void addFirst(T item){
         if(size>= items.length) resizeEnlarge();
-    if(first==0){
-        first= items.length;
-    }
-    if(first==1)last=0;
-    first-=1;
-    items[first]=item;
-    size+=1;
+        items[first]=item;
+        first=(first-1+items.length)%items.length;
+        size+=1;
     }
 
     /** Adds an item of type T to the back of the deque.*/
     public void addLast(T item){
         if(size>= items.length) resizeEnlarge();
-    if(last==-1)first=0;
-    else last+=1;
-    if(last == items.length-1)last=0;
-    else last+=1;
-    items[last]=item;
-    size+=1;
+        items[last]=item;
+        last=(last+1)%items.length;
+        size+=1;
     }
 
     /** Returns true if deque is empty, false otherwise.*/
@@ -94,10 +85,9 @@ public class ArrayDeque<T>{
             System.out.print("\n");
             return;
         }
-    for(int i= first;i< items.length;i++)
-        System.out.print(items[i]+" ");
-    for(int i=0;i<=last;i++)
-        System.out.print(items[i]+" ");
+        int temp = (first+1)%items.length;
+    for(int i= 0;i< size;i++,temp=(temp+1)%items.length)
+        System.out.print(items[temp]+" ");
     System.out.print("\n");
     }
 
@@ -105,12 +95,9 @@ public class ArrayDeque<T>{
      * If no such item exists, returns null.*/
     public T removeFirst(){
         if(size==0)return null;
+        first=(first+1)%items.length;
         T temp=items[first];
         items[first]=null;
-        if(first== items.length-1)first=0;
-        else first+=1;
-        if(last==0&&first==0)last=-1;
-        else first+=1;
         size-=1;
         resizeReduce();
         return temp;
@@ -120,12 +107,9 @@ public class ArrayDeque<T>{
      * If no such item exists, returns null.*/
     public T removeLast(){
         if(size==0)return null;
+        last=(last-1+items.length)%items.length;
         T temp=items[last];
         items[last]=null;
-        if(last==0)last= items.length-1;
-        else last-=1;
-        if(last==0&&first==0)first=1;
-        else last-=1;
         size-=1;
         resizeReduce();
         return temp;
@@ -137,7 +121,7 @@ public class ArrayDeque<T>{
     public T get(int index){
         if(index>items.length-1)
             return null;
-        return items[(first+index)% items.length];
+        return items[(first-1+index+ items.length)% items.length];
     }
 
 

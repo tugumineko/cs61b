@@ -17,7 +17,8 @@ public class Test{
         ArrayDeque.addLast(0);
         ArrayDeque.addFirst(3);
         ArrayDeque.removeLast();
-        /**for(int i= 0;i<10000;i++)
+        ArrayDeque AList = new ArrayDeque();
+        for(int i= 0;i<10000;i++)
         {
             AList.addLast(17);
             AList.addFirst(1);
@@ -33,7 +34,7 @@ public class Test{
             System.out.print(AList.get(2)+" " +AList.size()+" ");
             AList.printDeque();
         }
-        System.out.println();*/
+        System.out.println();
 
 
     }
