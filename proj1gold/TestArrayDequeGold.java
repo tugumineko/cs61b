@@ -3,8 +3,7 @@ import org.junit.Test;
 
 public class TestArrayDequeGold {
 
-
-
+    @Test
     public void testStudentArrayDeque() {
         /** array必须创建在函数中，如果创建在函数外就是使用堆内存，当size==0时就被内存管理器回收了下次就会返回空指针 */
         StudentArrayDeque<Integer> arrayDeque = new StudentArrayDeque<>();
