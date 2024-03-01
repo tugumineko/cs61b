@@ -9,6 +9,7 @@ public class TestOffByN {
         assertTrue(offBy4.equalChars('a','e'));
         assertTrue(offBy4.equalChars('e','a'));
         assertFalse(offBy4.equalChars('a','a'));
+        assertFalse(offBy4.equalChars('*','*'));
     }
 
 }
