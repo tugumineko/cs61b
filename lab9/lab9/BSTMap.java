@@ -160,6 +160,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     public V remove(K key) {
         Node p = findNode(key,root);
         if(p==null)return null;
+        size--;
         V value = p.value;
         if(noChild(p)){
             p = null;
