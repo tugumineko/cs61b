@@ -16,6 +16,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private Node[] contents;
     private int size;
 
+    private int dfsFind;
+
     public ArrayHeap() {
         contents = new ArrayHeap.Node[16];
 
@@ -228,30 +230,30 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * bonus problem, but shouldn't be too hard if you really understand heaps
      * and think about the algorithm before you start to code.
      */
-    private int dfs(int index,T item){
+    private void dfs(int index,T item){
+        if(!inBounds(index)){
+            return;
+        }
         if(contents[index].myItem.equals(item)){
-            return index;
+            dfsFind = index;
+            return;
         }
-        boolean[] vis = new boolean[size+1];
-        vis[1]=true;
-        for(int i=1,newIndex=leftIndex(index);i<=2;i++,newIndex=rightIndex(index)) {
-            if (inBounds(newIndex)&&!vis[newIndex] && contents[index].myPriority < contents[newIndex].myPriority) {
-                vis[newIndex]=true;
-                dfs(newIndex,item);
-                vis[newIndex]=false;
-            }
-        }
-        return 0;
-
+        dfs(leftIndex(index),item);
+        dfs(rightIndex(index),item);
     }
 
 
     @Override
     public void changePriority(T item, double priority) {
         if(contents[1].myItem.equals(item))contents[1].myPriority=priority;
-        int index = dfs(1,item);
-        if(index==0)return;
-        contents[index].myPriority = priority;
+        boolean[] vis = new boolean[size+1];
+        dfs(1,item);
+        if(dfsFind==0)return;
+        double temp = contents[dfsFind].myPriority;
+        contents[dfsFind].myPriority = priority;
+        if(temp<priority)sink(dfsFind);
+        if(temp>priority)swim(dfsFind);
+        dfsFind = 0;
     }
 
     /**
