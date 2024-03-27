@@ -245,7 +245,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
 
     @Override
     public void changePriority(T item, double priority) {
-        if(contents[1].myItem.equals(item))contents[1].myPriority=priority;
         boolean[] vis = new boolean[size+1];
         dfs(1,item);
         if(dfsFind==0)return;
