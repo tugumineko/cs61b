@@ -83,7 +83,7 @@ public class Board implements WorldState{
             for(int j=0;j<size;j++){
                 if(tiles[i][j]==0)continue;
                 int index = (i)*size+j+1;
-                if(tiles[i][j]==index)number++;
+                if(tiles[i][j]!=index)number++;
             }
         }
         return number;
