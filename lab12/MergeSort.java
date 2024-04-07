@@ -1,5 +1,7 @@
 import edu.princeton.cs.algs4.Queue;
 
+import java.util.Iterator;
+
 public class MergeSort {
     /**
      * Removes and returns the smallest item that is in q1 or q2.
@@ -35,7 +37,13 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> queues = new Queue<>();
+        for (Item i:items ) {
+            Queue queue =new Queue();
+            queue.enqueue(i);
+            queues.enqueue(queue);
+        }
+        return queues;
     }
 
     /**
@@ -51,16 +59,53 @@ public class MergeSort {
      *              greatest.
      *
      */
+
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> q = new Queue<Item>();
+        int n = q1.size()+ q2.size();
+        for(int i=0;i<n;i++){
+            q.enqueue(getMin(q1,q2));
+        }
+        return q;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        if(items.size()==1)return items;
+        Queue<Queue<Item>> queues = makeSingleItemQueues(items);
+        while(queues.size()!=1){
+            Queue<Queue<Item>> temp = new Queue<>();
+            while(!queues.isEmpty()){
+                Queue<Item> q1 = queues.dequeue();
+                Queue<Item> q2 = queues.isEmpty()?new Queue<>():queues.dequeue();
+                temp.enqueue(mergeSortedQueues(q1,q2));
+            }
+            queues = temp;
+        }
+        return queues.dequeue();
+    }
+
+    public static void main(String args[]){
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Azuma");
+        students.enqueue("Yumeko");
+        students.enqueue("Baka");
+        students.enqueue("Tsunami");
+        students.enqueue("Nanami");
+        for (Iterator<String> it = students.iterator(); it.hasNext(); ) {
+            String s = it.next();
+            System.out.print(s+",");
+        }
+        System.out.println();
+        Queue studentsSort = MergeSort.mergeSort(students);
+        for (Iterator<String> it = studentsSort.iterator(); it.hasNext(); ) {
+            String s = it.next();
+            System.out.print(s+",");
+        }
+        System.out.println();
     }
 }
