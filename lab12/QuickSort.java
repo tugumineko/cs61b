@@ -1,5 +1,7 @@
 import edu.princeton.cs.algs4.Queue;
 
+import java.util.Iterator;
+
 public class QuickSort {
     /**
      * Returns a new queue that contains the given queues catenated together.
@@ -48,12 +50,43 @@ public class QuickSort {
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
         // Your code here!
+        for(Item i:unsorted){
+            if(i.equals(pivot))equal.enqueue(i);
+            else if(i.compareTo(pivot)>0)greater.enqueue(i);
+            else if(i.compareTo(pivot)<0)less.enqueue(i);
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        Item pivot = getRandomItem(items);
+        Queue<Item> less = new Queue<>();
+        Queue<Item> equal = new Queue<>();
+        Queue<Item> greater = new Queue<>();
+        partition(items,pivot,less,equal,greater);
+        if(!less.isEmpty())less=QuickSort.quickSort(less);
+        if(!greater.isEmpty())greater=QuickSort.quickSort(greater);
+        return catenate(catenate(less,equal),greater);
+    }
+    public static void main(String args[]){
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Azuma");
+        students.enqueue("Yumeko");
+        students.enqueue("Baka");
+        students.enqueue("Tsunami");
+        students.enqueue("Nanami");
+        for (Iterator<String> it = students.iterator(); it.hasNext(); ) {
+            String s = it.next();
+            System.out.print(s+",");
+        }
+        System.out.println();
+        Queue studentsSort = QuickSort.quickSort(students);
+        for (Iterator<String> it = studentsSort.iterator(); it.hasNext(); ) {
+            String s = it.next();
+            System.out.print(s+",");
+        }
+        System.out.println();
     }
 }
