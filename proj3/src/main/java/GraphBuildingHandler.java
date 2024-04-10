@@ -169,12 +169,17 @@ public class GraphBuildingHandler extends DefaultHandler {
             idWay.put(String.valueOf(id),way);
             if(way.vaild)
             {
-            for(String i:way.nodeList) {
-                for (String j : way.nodeList){
-                    if(i.equals(j))continue;
-                    g.graph.get(Long.parseLong(i)).add(Long.parseLong(j));
+                for (int i = 0; i <way.nodeList.size();i++) {
+                    Long s = Long.parseLong(way.nodeList.get(i));
+                    if(i!=0) {
+                        String sFront = way.nodeList.get(i - 1);
+                        g.graph.get(s).add(Long.parseLong(sFront));
+                    }
+                    if(i!=way.nodeList.size()-1){
+                        String sBehind = way.nodeList.get(i+1);
+                        g.graph.get(s).add(Long.parseLong(sBehind));
+                    }
                 }
-            }
             }
         }
     }

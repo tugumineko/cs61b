@@ -29,6 +29,8 @@ public class GraphDB {
         private double lat;
         private String name;
 
+        private double steps = Double.MAX_VALUE;
+
         protected void nodeLocation(double lon,double lat){
             this.lon = lon;
             this.lat = lat;
@@ -37,8 +39,15 @@ public class GraphDB {
         protected void nodeName(String name){
             this.name = name;
         }
+
+        protected void nodeSteps(double steps){this.steps = steps;}
+
     }
 
+
+    /**
+     * I'm sb.
+     *
     private class idDistance implements Comparable{
         private double distance;
         private long id;
@@ -53,9 +62,9 @@ public class GraphDB {
             if(o==null)throw new IllegalArgumentException();
             if(o.getClass()!=this.getClass())throw new IllegalArgumentException();
             idDistance that = (idDistance) o;
-            return (int)(this.distance - that.distance);
+            return (int)(this.distance - that.distance)*10000;
         }
-    }
+    }*/
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -143,6 +152,9 @@ public class GraphDB {
         return 3963 * c;
     }
 
+    double step(Long v){return idMap.get(v).steps;}
+
+
     /**
      * Returns the initial bearing (angle) between vertices v and w in degrees.
      * The initial bearing is the angle that, if followed in a straight line
@@ -177,16 +189,17 @@ public class GraphDB {
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        if(graph.isEmpty())throw  new NullPointerException();
-        Queue<idDistance> priorityQueue = new PriorityQueue<>();
-        for(Long i:graph.keySet()){
-            double tempLon = idMap.get(i).lon;
-            double templat = idMap.get(i).lat;
-            priorityQueue.add(new idDistance(distance(tempLon,templat,lon,lat),i));
+        long ans = 0;
+        double minDis = Double.MAX_VALUE;
+        for (long v : graph.keySet()) {
+            double dis = distance(lon(v), lat(v), lon, lat);
+            if (minDis > dis) {
+                minDis = dis;
+                ans = v;
+            }
         }
-        return priorityQueue.peek().id;
+        return ans;
     }
-
     /**
      * Gets the longitude of a vertex.
      * @param v The id of the vertex.

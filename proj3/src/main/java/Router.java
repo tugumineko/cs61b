@@ -1,5 +1,5 @@
-import java.util.List;
-import java.util.Objects;
+import javax.swing.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +12,17 @@ import java.util.regex.Pattern;
  * down to the priority you use to order your vertices.
  */
 public class Router {
+
+    public static class SearchNode {
+        private Long id;
+        private SearchNode preSearchNode;
+
+        private SearchNode(Long id , SearchNode preSearchNode){
+            this.id = id ;
+            this.preSearchNode =preSearchNode;
+        }
+    }
+
     /**
      * Return a List of longs representing the shortest path from the node
      * closest to a start location and the node closest to the destination
@@ -25,7 +36,38 @@ public class Router {
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        return null; // FIXME
+        Long stID = g.closest(stlon,stlat);
+        Long destID = g.closest(destlon,destlat);
+        g.idMap.get(stID).nodeSteps(0);
+        //Maybe using a new structure SearchNode would be better.
+        Queue<SearchNode> pq = new PriorityQueue<>(new Comparator<SearchNode>() {
+            @Override
+            public int compare(SearchNode o1, SearchNode o2) {
+                double d1 = g.distance(o1.id,destID);
+                double d2 = g.distance(o2.id,destID);
+
+                return Double.compare(g.step(o1.id) + d1, g.step(o2.id) + d2);
+            }
+        });
+        List<Long> list = new ArrayList<>();
+        pq.add(new SearchNode(stID,null));
+        while(!pq.isEmpty()){
+            SearchNode X = pq.remove();
+            if(X.id.equals(destID)){
+                SearchNode node = X;
+            while(node!=null){
+                list.addFirst(node.id);
+                node = node.preSearchNode;
+            }
+            return list;
+            }
+            for(Long id : g.adjacent(X.id)){
+                if (X.preSearchNode!=null&&id.equals(X.preSearchNode.id))continue;
+                pq.add(new SearchNode(id,X));
+                g.idMap.get(id).nodeSteps(g.step(X.id)+g.distance(id,X.id));
+            }
+        }
+        return null;
     }
 
     /**
