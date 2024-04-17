@@ -37,13 +37,13 @@ public class RadixSort {
      */
     private static void sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
-        int[] counts = new int[129];
+        int[] counts = new int[257];
         for(String i:asciis) {
             int c = getCharAt(i,index);
             counts[c]++;
         }
 
-        for(int i=1;i<=129;i++){
+        for(int i=1;i<=257;i++){
             counts[i]+=counts[i-1];
         }
 
