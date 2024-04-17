@@ -39,7 +39,7 @@ public class RadixSort {
         // Optional LSD helper method for required LSD radix sort
         int[] counts = new int[129];
         for(String i:asciis) {
-            int c = i.charAt(index);
+            int c = getCharAt(i,index);
             counts[c]++;
         }
 
@@ -49,10 +49,17 @@ public class RadixSort {
 
         String[] sorted = new String[asciis.length];
         for(int i = asciis.length-1;i>=0;i--){
-            int c = asciis[i].charAt(index);
+            int c = getCharAt(asciis[i],index);
             sorted[--counts[c]]=asciis[i];
         }
         System.arraycopy(sorted,0,asciis,0,asciis.length);
+    }
+
+    private static int getCharAt(String s, int index) {
+        if (s.length() > index && index >= 0) {
+            return (int) s.charAt(index) + 1;
+        }
+        return 0;
     }
 
     /**
