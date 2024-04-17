@@ -43,7 +43,7 @@ public class RadixSort {
             counts[c]++;
         }
 
-        for(int i=1;i<=257;i++){
+        for(int i=1;i<257;i++){
             counts[i]+=counts[i-1];
         }
 
