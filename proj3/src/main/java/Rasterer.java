@@ -93,10 +93,10 @@ public class Rasterer {
         int yBegin = (int)((ullat - MapServer.ROOT_ULLAT)/yPartition);
         int xEnd = (int)Math.pow(2,rasterer.depth) -1 - (int)((MapServer.ROOT_LRLON - lrlon)/xPartition);
         int yEnd = (int)Math.pow(2,rasterer.depth) -1 - (int)((MapServer.ROOT_LRLAT - lrlat)/yPartition);
-        rasterer.raster_ul_lon = xBegin*xPartition;
-        rasterer.raster_ul_lat = yBegin*yPartition;
-        rasterer.raster_lr_lon = xEnd*xPartition;
-        rasterer.raster_lr_lat = yEnd*yPartition;
+        rasterer.raster_ul_lon = MapServer.ROOT_ULLON+xBegin*xPartition;
+        rasterer.raster_ul_lat = MapServer.ROOT_ULLAT+yBegin*yPartition;
+        rasterer.raster_lr_lon = rasterer.raster_ul_lon+(xEnd-xBegin+1)*xPartition;
+        rasterer.raster_lr_lat = rasterer.raster_ul_lat+(yEnd-yBegin+1)*yPartition;
 
         //get render_grid of rasterer
         rasterer.render_grid = new String[yEnd-yBegin+1][xEnd-xBegin+1];

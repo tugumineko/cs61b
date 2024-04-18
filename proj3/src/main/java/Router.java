@@ -56,7 +56,7 @@ public class Router {
             if(X.id.equals(destID)){
                 SearchNode node = X;
             while(node!=null){
-                list.addFirst(node.id);
+                list.add(node.id);
                 node = node.preSearchNode;
             }
             return list;
@@ -79,6 +79,7 @@ public class Router {
      * route.
      */
     public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> route) {
+
         return null; // FIXME
     }
 
