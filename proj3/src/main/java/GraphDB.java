@@ -23,8 +23,11 @@ public class GraphDB {
     protected Hashtable<Long, ArrayList<Long>> graph = new Hashtable<>();
 
     protected Map<Long,Node> idMap = new HashMap<>();
+    protected Map<String,List<Node>> cleanedNameToNodes = new HashMap<>();
 
     protected static class Node{
+
+        private long id;
         private double lon;
         private double lat;
         private String name;
@@ -44,73 +47,7 @@ public class GraphDB {
 
     }
 
-    private class trie{
-        private class trieNode{
-            private List<trieNode> children;
-            private Boolean terminal = false;
-
-            private String value;
-
-            private trieNode(List<trieNode> children, Boolean terminal, String value){
-                this.children = children;
-                this.terminal = terminal;
-                this.value = value;
-            }
-
-        }
-
-
-
-        private trieNode root;
-
-        private trieNode search(String key){
-            trieNode node = root;
-            for(int i=0;i<key.length();i++){
-                if(node.children==null)return null;
-                for(trieNode child: node.children){
-                    if(child.value.charAt(i)==key.charAt(i)||child.value.toUpperCase().charAt(i)==key.charAt(i)){
-                        node = child;
-                        break;
-                    }
-                }
-            }
-            return node;
-        }
-
-        private List<String> bfs(trieNode node){
-            List<String> list = new ArrayList<>();
-            Queue<trieNode> q = new ArrayDeque<trieNode>() ;
-            q.add(node);
-            while(!q.isEmpty()){
-                trieNode top = q.remove();
-                if(node.terminal)list.add(top.value);
-
-                if(node.children==null)continue;
-                for(trieNode child: top.children){
-                    q.add(child);
-                }
-            }
-            return list;
-        }
-
-        private void insert(String key){
-            trieNode node = root;
-            String s = "";
-            for(int i=0;i<key.length();i++){
-                s += key.charAt(i);
-                if(node.children==null){
-                    node.children = new ArrayList<>();
-                    if(i==key.length()-1)node.children.add(new trieNode(null,true,s));
-                    else node.children.add(new trieNode(null,false,s));
-                }
-                for(trieNode child: node.children){
-                    if(child.value.charAt(i)==key.charAt(i)||child.value.toUpperCase().charAt(i)==key.charAt(i)){
-                        return;
-                    }
-                }
-            }
-        }
-    }
+    protected Trie t = new Trie();
 
     /**
      * I'm sb.
@@ -159,8 +96,8 @@ public class GraphDB {
      * @param s Input string.
      * @return Cleaned string.
      */
-    static String cleanString(String s) {
-        return s.replaceAll("[^a-zA-Z ]", "").toLowerCase();
+    static String cleanString(String s){
+        return s.replaceAll("[^a-zA-Z ]","").toLowerCase();
     }
 
     /**
@@ -286,21 +223,24 @@ public class GraphDB {
     }
 
     public List<String> getLocationByPrefix(String prefix){
-        trie t = new trie();
-        for(Long i:idMap.keySet()) {
-            String name = idMap.get(i).name;
-            if (name != null) {
-                t.insert(idMap.get(i).name);
-            }
-        }
-
-        return t.bfs(t.search(prefix));
+        return t.bfs(t.search(GraphDB.cleanString(prefix)));
     }
 
-    HashMap<String,List<Node>> getLocation(String name){
-
-return null;
-
+    public List<Map<String,Object>> getLocation(String name){
+        String cleanedString = GraphDB.cleanString(name);
+        List<Map<String,Object>> ans = new ArrayList<>();
+        if(! cleanedNameToNodes.containsKey(cleanedString)){
+            return ans;
+        }
+        for(Node node : cleanedNameToNodes.get(cleanedString)){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",node.id);
+            map.put("name",node.name);
+            map.put("lon",node.lon);
+            map.put("lat",node.lat);
+            ans.add(map);
+        }
+        return ans;
     }
 
 

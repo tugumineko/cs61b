@@ -144,7 +144,11 @@ public class GraphBuildingHandler extends DefaultHandler {
             System.out.println("Node's name: " + attributes.getValue("v"));
             if(g.idMap.isEmpty())
             g.idMap.get(id).nodeName(attributes.getValue("v"));
-
+            String v = attributes.getValue("v");
+            String cleanedString = GraphDB.cleanString(v);
+            g.t.insert(cleanedString,v);
+            g.cleanedNameToNodes.putIfAbsent(cleanedString,new LinkedList<>());
+            g.cleanedNameToNodes.get(cleanedString).add(g.idMap.get(id));
         }
     }
 
