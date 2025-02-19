@@ -201,7 +201,6 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             }
             if(pf.right==p){
                 pf.right=newp;
-                p=null;
             }
         }
         return value;

@@ -1,7 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 class Trie{
     private class trieNode{
@@ -18,7 +15,7 @@ class Trie{
 
     }
 
-    private trieNode root;
+    private trieNode root=new trieNode(new LinkedList<>(),false,null);
 
     trieNode search(String key){
         trieNode node = root;
